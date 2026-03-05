@@ -1,0 +1,56 @@
+
+h1{
+    color: rgba(219, 33, 33, 0.705);
+    text-decoration: underline;
+}
+main{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.formContainer{
+    // background-color: rgb(115, 33, 117);
+    width: 20rem;
+    height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    
+
+    .formdata{
+        display: flex;
+        flex-direction: column;
+        padding-top: 1rem;
+        margin-bottom: 1rem;
+
+        label{
+            margin-bottom: 0.5rem;
+        }
+        input{
+            padding: 0.3rem;
+            border-radius: 5px;
+            border: none;
+        }
+        button{
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: none;
+            background-color: rgba(219, 33, 33, 0.705);
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+        }
+        }
+        .link{
+            color: rgb(255, 255, 255);
+            a{
+                color: rgba(219, 33, 33, 0.705);
+                text-decoration: none;
+            }
+        }
+        
+    }
+    
