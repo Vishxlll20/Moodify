@@ -1,20 +1,13 @@
-import React from 'react'
-import FaceExpression from './features/Expression/components/FaceExpression'
-import { RouterProvider } from 'react-router'
-import { router } from './app.routes.jsx'
-import "./features/shared/styles/global.scss"
-import { AuthProvider } from './features/auth/auth.context.jsx'
-import { SongContextProvider } from './features/home/song.context.jsx'
+import React from "react";
+import { Outlet } from "react-router";
+import { AuthProvider } from "./Features/Auth/auth.context";
 
 function App() {
-
   return (
     <AuthProvider>
-      <SongContextProvider>
-        <RouterProvider router={router} />
-      </SongContextProvider>
+      <Outlet />
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;

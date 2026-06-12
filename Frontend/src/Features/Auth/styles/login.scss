@@ -1,0 +1,40 @@
+@use "sass:color";
+@use "./register" as *;
+
+.login-page {
+  @extend .register-page;
+}
+
+.login-form {
+  @extend .register-form;
+
+  .forgot-password {
+    text-align: right;
+    margin-top: -0.6rem;
+    margin-bottom: 1.2rem;
+
+    a {
+      text-decoration: none;
+      color: $wero-rose;
+      font-size: 0.82rem;
+      font-weight: 700;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .login-btn {
+    @extend .register-btn;
+    background: $wero-rose;
+
+    &:hover {
+      background: color.adjust($wero-rose, $lightness: 4%);
+    }
+  }
+
+  .register-link {
+    @extend .login-link;
+  }
+}

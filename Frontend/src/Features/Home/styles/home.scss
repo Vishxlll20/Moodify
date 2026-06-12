@@ -1,0 +1,45 @@
+@use "sass:color";
+
+/* Import partials */
+@import "variables";
+@import "floating-nav";
+@import "floating-controls";
+@import "floating-vinyl";
+@import "hero-section";
+@import "concept-grid";
+@import "vibe-scanner";
+@import "vibe-player";
+@import "partner-ticker";
+
+/* Main Page Containers */
+.home-page-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  /* Multi-stage scrolling background gradient */
+  background: linear-gradient(180deg,
+      #ff6b35 0%,
+    #f7c59f 25%,
+    #ffb347 50%,
+    #e84545 75%,
+    #ffd700 100%);
+  background-size: 100% 100%;
+  transition: background 0.8s ease;
+  z-index: 1;
+}
+
+.scrollytelling-wrapper {
+  width: 100%;
+}
+
+.story-section {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 5% 5rem;
+  overflow: hidden;
+}

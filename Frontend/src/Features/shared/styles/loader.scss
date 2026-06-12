@@ -1,0 +1,154 @@
+/* Themed Loader Styles - Harmonized with sowieso.wero-wallet.eu */
+$dark-charcoal: #181818;
+$white: #ffffff;
+$wero-rose: #f08ba4;
+$wero-yellow: #f8e38f;
+$border-thickness: 2px;
+$neo-shadow: 4px 4px 0px #181818;
+
+/* Equalizer colors */
+$bar-color-1: #f08ba4;
+$bar-color-2: #fbe08d;
+$bar-color-3: #aae9d4;
+$bar-color-4: #b9d6f3;
+$bar-color-5: #fda4af;
+
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* Harmonized background gradient */
+  background: linear-gradient(135deg, $wero-rose 0%, $wero-yellow 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  overflow: hidden;
+
+  .loader-card-capsule {
+    background-color: $white;
+    border: $border-thickness solid $dark-charcoal;
+    border-radius: 32px;
+    padding: 3.5rem 3rem;
+    box-shadow: $neo-shadow;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .logo-wrapper {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Spinning mini-vinyl record loader mockup */
+    .loader-vinyl-disc {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background-color: #111111;
+      border: $border-thickness solid $dark-charcoal;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: rotateMiniVinyl 4s linear infinite;
+
+      .grooves {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .line {
+          position: absolute;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+
+          &.l1 { width: 80%; height: 80%; }
+          &.l2 { width: 60%; height: 60%; }
+        }
+      }
+
+      .sticker {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: $wero-rose;
+        border: 1.5px solid $dark-charcoal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+
+        .spindle {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background-color: $dark-charcoal;
+        }
+      }
+    }
+  }
+
+  .loading-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: $dark-charcoal;
+    margin-bottom: 1.8rem;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+    animation: pulseLoaderText 1.6s infinite ease-in-out;
+  }
+
+  .music-wave {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 30px;
+
+    span {
+      width: 5px;
+      height: 100%;
+      border: 1.5px solid $dark-charcoal;
+      border-radius: 10px;
+      transform-origin: bottom;
+      animation: scaleEqualizerBars 1.2s infinite ease-in-out;
+
+      &:nth-child(1) { background-color: $bar-color-1; animation-delay: 0.1s; }
+      &:nth-child(2) { background-color: $bar-color-2; animation-delay: 0.3s; }
+      &:nth-child(3) { background-color: $bar-color-3; animation-delay: 0.5s; }
+      &:nth-child(4) { background-color: $bar-color-4; animation-delay: 0.2s; }
+      &:nth-child(5) { background-color: $bar-color-5; animation-delay: 0.4s; }
+    }
+  }
+}
+
+@keyframes rotateMiniVinyl {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulseLoaderText {
+  0%, 100% { opacity: 0.7; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+@keyframes scaleEqualizerBars {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+}
