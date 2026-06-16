@@ -1,33 +1,28 @@
-const express = require("express");
+const userModel = require("../models/user.model");
+const redis = require("../config/cache");
 const jwt = require("jsonwebtoken");
-const blacklistModel = require("../models/blacklisting.model");
-const redis = require("../config/cache.js")
 
 async function authUser(req, res, next) {
-  const token = req.cookies.token;
+    const token = req.cookies.token;
+    if(!token) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
 
-  if (!token) {
-    res.status(404).json({
-      message: "Token not found",
-    });
-  }
+    const blacklistedToken = await redis.get(token);
 
-  const isBlacklisted = await redis.get(token)
-  if(isBlacklisted){
-    res.status(409).json({
-        message:"Invalid Token"
-    })
-  }
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if(blacklistedToken) {
+        return res.status(401).json({ message: "Token Invalid" });
+    }
 
-    req.user = decoded;
+    try{
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+    }catch(err) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+
     next();
-  } catch (err) {
-    res.status(409).json({
-      message: "Token Invalid",
-    });
-  }
+
 }
 
-module.exports = {authUser}
+module.exports = authUser;
