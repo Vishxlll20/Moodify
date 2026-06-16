@@ -33,109 +33,96 @@ const HomeContent = () => {
   } = useHome();
 
   // Scroll active section listener (for bottom nav pills)
-  useEffect(() => {
-    if (loading || !user) return;
+useEffect(() => {
+  if (loading || !user) return;
 
-    const sections = [
-      { id: "section-hero", label: "hero" },
-      { id: "section-concept", label: "concept" },
-      { id: "section-scanner", label: "scanner" },
-      { id: "section-player", label: "player" },
-      { id: "section-partners", label: "partners" }
-    ];
+  window.scrollTo(0, 0);
 
-    const observerOptions = {
-      root: null,
-      rootMargin: "-20% 0px -60% 0px", // triggers when section covers central area
-      threshold: 0
+  const isMobile = window.innerWidth <= 1000;
+  const isSmallMobile = window.innerWidth <= 480;
+
+  // Initial position — center of hero on all devices
+  gsap.set(vinylRef.current, {
+    left: 0,
+    top: 0,
+    xPercent: -50,
+    yPercent: -50,
+    x: "50vw",
+    y: isMobile ? "40vh" : "52vh",
+  });
+
+  gsap.fromTo(".floating-nav-top",
+    { y: -80, opacity: 0 },
+    { y: 0, opacity: 1, duration: 1.4, ease: "power4.out" }
+  );
+  gsap.fromTo(".floating-controls-bottom",
+    { y: 80, opacity: 0 },
+    { y: 0, opacity: 1, duration: 1.4, ease: "power4.out", delay: 0.2 }
+  );
+  gsap.fromTo(".floating-vinyl-record",
+    { scale: 0, rotation: -180 },
+    { scale: 1, rotation: 0, duration: 1.6, ease: "elastic.out(1, 0.75)" }
+  );
+
+  const target = document.querySelector(".turntable-slot-target");
+  const section = document.getElementById("section-player");
+
+  let targetLeft = isMobile ? "50vw" : "77.5vw";
+  let targetTop = isMobile ? "38vh" : "44.5vh";
+
+  if (target && section) {
+    const targetRect = target.getBoundingClientRect();
+    const sectionRect = section.getBoundingClientRect();
+    const relativeTop = (targetRect.top + targetRect.height / 2) - sectionRect.top;
+
+    targetLeft = () => {
+      const rect = target.getBoundingClientRect();
+      return rect.left + rect.width / 2;
     };
+    targetTop = () => relativeTop;
+  }
 
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const match = sections.find(s => s.id === entry.target.id);
-          if (match) {
-            setActiveSection(match.label);
-          }
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    sections.forEach(s => {
-      const el = document.getElementById(s.id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, [loading, user, setActiveSection]);
-
-  // GSAP SCROLLTRIGGER SCROLL-LINKED FLOATING VINYL ANIMATIONS
-  useEffect(() => {
-    if (loading || !user) return;
-
-    // Reset scroll values on hot reload/mount
-    window.scrollTo(0, 0);
-
-    // Initialize vinyl transforms for GPU-accelerated movement
-    gsap.set(vinylRef.current, {
-      left: 0,
-      top: 0,
-      xPercent: -50,
-      yPercent: -50,
-      x: "50vw",
-      y: "52vh"
-    });
-
-    // Initial load animation for top floating nav and hero elements
-    gsap.fromTo(".floating-nav-top",
-      { y: -80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.4, ease: "power4.out" }
-    );
-    gsap.fromTo(".floating-controls-bottom",
-      { y: 80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.4, ease: "power4.out", delay: 0.2 }
-    );
-    gsap.fromTo(".floating-vinyl-record",
-      { scale: 0, rotation: -180 },
-      { scale: 1, rotation: 0, duration: 1.6, ease: "elastic.out(1, 0.75)" }
-    );
-
-    // Measure perfect coordinate anchors for Section 4 turntable slot alignment
-    const target = document.querySelector(".turntable-slot-target");
-    const section = document.getElementById("section-player");
-
-    let targetLeft = "77.5vw";
-    let targetTop = "44.5vh";
-
-    if (target && section) {
-      const targetRect = target.getBoundingClientRect();
-      const sectionRect = section.getBoundingClientRect();
-      // Absolute vertical offset relative to the section top boundary
-      const relativeTop = (targetRect.top + targetRect.height / 2) - sectionRect.top;
-
-      // Bind coordinate resolvers
-      targetLeft = () => {
-        const rect = target.getBoundingClientRect();
-        return rect.left + rect.width / 2;
-      };
-
-      targetTop = () => {
-        return relativeTop;
-      };
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".home-page-container",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 1.2,
     }
+  });
 
-    // Timeline for Vinyl Record glides across sections (fixed coordinate system)
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".home-page-container",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1.2, // Smooth scrubbing linking to scrollbar
-      }
+  if (isMobile) {
+    // Mobile: vinyl stays centered, moves vertically, shrinks and exits
+    tl.to(vinylRef.current, {
+      x: "50vw",
+      y: "45vh",
+      scale: isSmallMobile ? 0.6 : 0.75,
+      rotation: 240,
+      ease: "power1.inOut"
+    })
+    .to(vinylRef.current, {
+      x: "50vw",
+      y: "42vh",
+      scale: isSmallMobile ? 0.5 : 0.65,
+      rotation: 520,
+      ease: "power1.inOut"
+    })
+    .to(vinylRef.current, {
+      x: "50vw",
+      y: "38vh",
+      scale: isSmallMobile ? 0.55 : 0.7,
+      rotation: 840,
+      ease: "power1.inOut"
+    })
+    .to(vinylRef.current, {
+      x: "50vw",
+      y: "160vh",
+      scale: 0,
+      rotation: 1080,
+      ease: "power2.in"
     });
-
-    // Animate Vinyl across viewport stages
+  } else {
+    // Desktop: original path
     tl.to(vinylRef.current, {
       x: "12vw",
       y: "50vh",
@@ -143,33 +130,33 @@ const HomeContent = () => {
       rotation: 240,
       ease: "power1.inOut"
     })
-      .to(vinylRef.current, {
-        x: "85vw",
-        y: "50vh",
-        scale: 0.65,
-        rotation: 520,
-        ease: "power1.inOut"
-      })
-      .to(vinylRef.current, {
-        x: targetLeft,
-        y: targetTop,
-        scale: 0.88,
-        rotation: 840,
-        ease: "power1.inOut"
-      })
-      .to(vinylRef.current, {
-        x: "67vw",
-        y: "160vh",
-        scale: 0,
-        rotation: 1080,
-        ease: "power2.in"
-      });
+    .to(vinylRef.current, {
+      x: "85vw",
+      y: "50vh",
+      scale: 0.65,
+      rotation: 520,
+      ease: "power1.inOut"
+    })
+    .to(vinylRef.current, {
+      x: targetLeft,
+      y: targetTop,
+      scale: 0.88,
+      rotation: 840,
+      ease: "power1.inOut"
+    })
+    .to(vinylRef.current, {
+      x: "67vw",
+      y: "160vh",
+      scale: 0,
+      rotation: 1080,
+      ease: "power2.in"
+    });
+  }
 
-    return () => {
-      // Clean up all scroll triggers
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
-  }, [loading, user, vinylRef]);
+  return () => {
+    ScrollTrigger.getAll().forEach(t => t.kill());
+  };
+}, [loading, user, vinylRef]);
 
   if (loading) {
     return <Loader text="Syncing audio elements..." />;

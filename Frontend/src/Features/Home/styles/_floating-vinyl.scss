@@ -1,3 +1,5 @@
+@use "variables" as *;
+@use "sass:color";
 /* HIGH FIDELITY FLOATING VINYL RECORD (The scrolling object) */
 .floating-vinyl-record {
   position: fixed;
@@ -113,7 +115,44 @@
 
 @media (max-width: 1000px) {
   .floating-vinyl-record {
-    /* Hide on small viewports so it does not block reading text */
-    display: none !important;
+    width: 160px;
+    height: 160px;
+
+    .vinyl-sticker {
+      width: 85px;
+      height: 85px;
+    }
+
+    .vinyl-sticker-inner {
+      width: 35px;
+      height: 35px;
+    }
+
+    .vinyl-spindle {
+      width: 10px;
+      height: 10px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-vinyl-record {
+    width: 120px;
+    height: 120px;
+
+    .vinyl-sticker {
+      width: 65px;
+      height: 65px;
+    }
+
+    .vinyl-sticker-inner {
+      width: 28px;
+      height: 28px;
+    }
+
+    .vinyl-spindle {
+      width: 8px;
+      height: 8px;
+    }
   }
 }
