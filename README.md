@@ -2,6 +2,9 @@
 
 Moodify is a full-stack mood-based music app built with a React frontend and an Express/MongoDB backend. The app uses facial expression detection and user authentication to let users explore and play songs based on their mood.
 
+**Live Demo:** [moodify-beige-kappa.vercel.app](https://moodify-beige-kappa.vercel.app)
+
+
 ## Project Structure
 
 - `Frontend/`
